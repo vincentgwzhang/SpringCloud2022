@@ -4,6 +4,7 @@ import com.atguigu.springcloud.dto.CommonResult;
 import com.atguigu.springcloud.dto.PaymentDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,22 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("order")
 public class OrderController {
 
-    public static final String PAYMENT_URL = "http://localhost:8001";
-
     private final RestTemplate restTemplate;
+
+    /**
+     * value = http://CLOUD-PAYMENT-SERVICE
+     *
+     * Here there is a small problem: You must add @LoadBalanced in restTemplate bean
+     *
+     *     @Bean
+     *     @LoadBalanced
+     *     public RestTemplate restTemplate() {
+     *         return new RestTemplate();
+     *     }
+     *
+     */
+    @Value("${application.payment-service-url}")
+    private String paymentServiceURL;
 
     @Autowired
     public OrderController(RestTemplate restTemplate) {
@@ -32,12 +46,12 @@ public class OrderController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public CommonResult<PaymentDTO> createPayment(@RequestBody PaymentDTO paymentDTO) {
-        return this.restTemplate.postForObject(PAYMENT_URL + "/payment/create", paymentDTO, CommonResult.class);
+        return this.restTemplate.postForObject(paymentServiceURL + "/payment/create", paymentDTO, CommonResult.class);
     }
 
     @GetMapping("{id}")
     public CommonResult<PaymentDTO> getPaymentById(@PathVariable Long id) {
-        return this.restTemplate.getForObject(PAYMENT_URL + "/payment/{id}", CommonResult.class, id);
+        return this.restTemplate.getForObject(paymentServiceURL + "/payment/{id}", CommonResult.class, id);
     }
 
 }
