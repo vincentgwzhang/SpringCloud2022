@@ -1,0 +1,71 @@
+Scenario 1:
+***********************************************************************
+Components related:
+cloud-provider-payment8001
+cloud-consumer-order9001
+cloud-eureka-server7001
+***********************************************************************
+[cloud-provider-payment8001] is for create payment and retrieve
+[cloud-consumer-order9001]   is for calling [cloud-provider-payment8001] to create payment and retrieve
+
+The next step, is build the [cloud-eureka-server7001],
+then [cloud-provider-payment8001] registry to [cloud-eureka-server7001]
+then [cloud-consumer-order9001]   find [cloud-provider-payment8001] though [cloud-eureka-server7001]
+
+Steps:
+1, Start eureka
+2, In eureka, active [cloud-provider-payment8001]
+3, Eureka gets the service name of [cloud-provider-payment8001], and its actual IP
+4, [cloud-consumer-order9001] get service name of [cloud-provider-payment8001] and remember its actual IP
+5, [cloud-consumer-order9001] get actual IP of [cloud-provider-payment8001] every 30 seconds
+
+
+The next step, is build the [cloud-eureka-server7002],
+and then [cloud-eureka-server7001] and [cloud-eureka-server7002] point to each other
+and then all the other service, like [cloud-provider-payment8001], [cloud-consumer-order9001] point to both eureka server
+========================================================
+
+
+PS:
+1)
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.2.2.Final</version>
+      <scope>compile</scope>
+    </dependency>
+
+    up to 7 would not work, so in future, please use
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+2) spring:
+     jpa.properties.hibernate.id.new_generator_mappings: false would avoid
+     # avoid throw message "Table 'DBNAME.hibernate_sequence' doesn't exist" error
+
+3) Remember following must add <version>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <release>17</release>
+                    <compilerArgs>--enable-preview</compilerArgs>
+                </configuration>
+            </plugin>
