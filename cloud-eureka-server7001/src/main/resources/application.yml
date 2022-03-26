@@ -1,6 +1,10 @@
 server:
   port: 7001
 
+spring:
+  main:
+    banner-mode: off
+
 eureka:
   instance:
     hostname: eureka7001.com
