@@ -1,0 +1,16 @@
+server:
+  port: 9003
+
+application:
+  payment-service-url: http://cloud-payment-service
+
+spring:
+  application:
+    name: cloud-consumer-order
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+        service-name: ${spring.application.name}

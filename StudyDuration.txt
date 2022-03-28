@@ -26,6 +26,34 @@ and then all the other service, like [cloud-provider-payment8001], [cloud-consum
 ========================================================
 
 
+
+
+Scenario 2:
+1, First need to download a zookeeper and start it.
+2, [cloud-provider-payment8004] is to connect zookeeper as service discovery
+3, [cloud-consumer-order9002]   is to connect zookeeper as consumer
+PS:
+-- In the pom.xml file, must notice that your zookeeper lib version must align with zookeeper server version
+-- In console, after type ./zkCli.sh, you could see:
+```[zk: localhost:2181(CONNECTED) 5] ls /services
+[cloud-provider-payment]
+
+[zk: localhost:2181(CONNECTED) 8] get /services/cloud-provider-payment/d03cf703-6188-4220-b65f-7ef76724bdd0
+{"name":"cloud-provider-payment","id":"d03cf703-6188-4220-b65f-7ef76724bdd0","address":"localhost","port":8004,"sslPort":null,"payload":{"@class":"org.springframework.cloud.zookeeper.discovery.ZookeeperInstance","id":"cloud-provider-payment","name":"cloud-provider-payment","metadata":{"instance_status":"UP"}},"registrationTimeUTC":1648429780320,"serviceType":"DYNAMIC","uriSpec":{"parts":[{"value":"scheme","variable":true},{"value":"://","variable":false},{"value":"address","variable":true},{"value":":","variable":false},{"value":"port","variable":true}]}}```
+========================================================
+
+
+
+
+
+Scenario 3:
+1, First need to download a consul and start it.
+2, [cloud-providerconsul-payment8006] is to connect consul as service discovery
+3, [cloud-consumer-order9002]   is to connect consul as consumer
+
+
+
+
 PS:
 1)
     <dependency>
