@@ -8,8 +8,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+/**
+ *
+ * I you want to use fallback, you must add:
+ *
+ *         <dependency>
+ *             <groupId>org.springframework.cloud</groupId>
+ *             <artifactId>spring-cloud-circuitbreaker-resilience4j</artifactId>
+ *         </dependency>
+ *
+ *         Or
+ *
+ *         <dependency>
+ *             <groupId>org.springframework.cloud</groupId>
+ *             <artifactId>spring-cloud-circuitbreaker-spring-retry</artifactId>
+ *         </dependency>
+ *
+ */
 @Component
-@FeignClient(value = "CLOUD-PAYMENT-SERVICE", configuration = FooConfiguration.class)//这个 @FeignClient 之能够放在 interface 上面
+@FeignClient(value = "CLOUD-PAYMENT-SERVICE", configuration = FooConfiguration.class, fallback = PaymentFeignServiceErrorHandler.class)//这个 @FeignClient 之能够放在 interface 上面
 public interface PaymentFeignService
 {
     /**
