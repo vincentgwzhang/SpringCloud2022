@@ -25,6 +25,7 @@
         <module>cloud-consumerconsul-order9003</module>
         <module>cloud-consumer-order9004</module>
         <module>cloud-consumer-order9005</module>
+        <module>resilience4j-demo</module>
     </modules>
 
     <properties>
