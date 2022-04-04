@@ -77,14 +77,46 @@ PS: [cloud-consumer-order9005] use OpenFeign and Eureka, and use for detail stud
 Scenario 5:
 [resilience4j-demo] is independent, no rely on any service discover, no rely on other calling
 Just demo for resilience4j
+================================================================================================================
 
 
 
+Scenario 6:
+1, [cloud-provider-payment8001] and [cloud-provider-payment8002] provide gameway port
+2, Connecting to [cloud-eureka-server700*]
+3, [cloud-gateway9527] is showing how to do the gateway
+================================================================================================================
 
 
+Scenario 7:
+Spring Cloud Config ==> Enterprise level
+1, [cloud-eureka-server700*] build service discover
+2, [cloud-config-center-3344] build as config server
+3, [cloud-config-client-3355] connect to config server, to read additional properties
+================================================================================================================
 
 
+Scenario 8:
+Spring Cloud Bus. No we need to two solution to dynamic refresh remote git file, and effect to [cloud-config-client-3355/3366]
+1, [cloud-eureka-server700*] build service discover
+2, [cloud-config-center-3344] build as config server
+3, [cloud-config-client-3355] and [cloud-config-client-3366] connect to config server, to read additional properties
+4, It is required to create a standard RabbitMQ service
+```
+docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:3-management
+```
 
+Solution 1: Each of the application, we send a post request, like: curl --location --request POST 'localhost:3355/actuator/refresh'
+Solution 2: Send request to config server, like: curl --location --request POST 'localhost:3344/actuator/busrefresh' in one time
+Solution 3: It is also able to notify only one set of service, not all. Like:
+```
+curl --location --request POST 'localhost:3344/actuator/busrefresh/cloud-config-client-3366'
+
+[cloud-config-client-3366] is application name, if has the same applicatio name, then format could be:
+
+cloud-config-client-3366:3366 ==> application name : port, for example:
+curl --location --request POST 'localhost:3344/actuator/busrefresh/cloud-config-client-3366:3366'
+```
 
 
 

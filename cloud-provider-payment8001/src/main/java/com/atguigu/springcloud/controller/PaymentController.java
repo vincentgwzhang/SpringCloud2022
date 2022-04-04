@@ -9,7 +9,14 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -85,5 +92,15 @@ public class PaymentController {
     public String paymentZipkin()
     {
         return "ServerPort: " + port + ": com.atguigu.springcloud.controller.PaymentController.paymentZipkin";
+    }
+
+    @GetMapping("gw1/test1")
+    public String gatewayTest1(@RequestParam("uname") String username, @RequestHeader("X-Request-red") String requestHeader) {
+        return "[gatewayTest1] ServerPort: " + port + ", X-Request-red = " + requestHeader + ", uname = " + username;
+    }
+
+    @GetMapping("gw2/test2")
+    public String gatewayTest2(@RequestParam("uname") String username) {
+        return "[gatewayTest2] ServerPort: " + port + ", uname = " + username;
     }
 }
