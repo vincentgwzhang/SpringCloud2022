@@ -1,0 +1,59 @@
+server:
+  port: 8802
+
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: cloud-stream-provider
+  cloud:
+    stream:
+      function:
+        definition: receiveTransferObject
+      outputBindings: TransferObject
+      inputBindings: TransferObject
+      bindings:
+        receiveTransferObject-in-0:
+          destination: sendTransferObjectChannel
+          consumer:
+            useNativeEncoding: true
+        sendTransferObjectChannel-out-0:
+          destination: sendTransferObjectChannel
+          producer:
+            useNativeEncoding: true
+      kafka:
+        bindings:
+          sendTransferObjectChannel-out-0:
+            producer:
+              configuration:
+                schema:
+                  registry:
+                    url: http://localhost:9091
+                value:
+                  serializer: com.atguigu.springcloud.serialization.TransferObjectSerializer
+          receiveTransferObject-in-0:
+            consumer:
+              configuration:
+                schema:
+                  registry:
+                    url: http://localhost:9091
+                value:
+                  deserializer: com.atguigu.springcloud.serialization.TransferObjectDeserializer
+    kafka:
+      binder:
+        configuration:
+          schema:
+            registry:
+              url: http://localhost:9091
+
+
+
+eureka:
+  client: # 客户端进行Eureka注册的配置
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 2 # 设置心跳的时间间隔（默认是30秒）
+    lease-expiration-duration-in-seconds: 5 # 如果现在超过了5秒的间隔（默认是90秒）
+    instance-id: Spring-Cloud-Stream-Sender  # 在信息列表时显示主机名称
+    prefer-ip-address: true     # 访问的路径变为IP地址

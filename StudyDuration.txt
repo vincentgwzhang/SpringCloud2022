@@ -159,6 +159,8 @@ Function<Object, Object> is used for received from channel and send to another c
 Supplier<Object>         is used for send to channel by internal
 StreamBridge             is used for send to channel by manual
 
+
+[cloud-stream-kafka-provider8802] Is for Kafka
 ================================================================================================================
 PS:
 1)

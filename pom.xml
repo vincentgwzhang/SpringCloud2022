@@ -32,6 +32,7 @@
         <module>cloud-config-client-3366</module>
         <module>cloudalibaba-config-nacos-client11001</module>
         <module>cloud-stream-rabbitmq-provider8801</module>
+        <module>cloud-stream-kafka-provider8802</module>
     </modules>
 
     <properties>
