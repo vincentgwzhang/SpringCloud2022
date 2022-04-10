@@ -1,0 +1,42 @@
+server:
+  port: 8801
+
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: cloud-stream-provider
+  cloud:
+    stream:
+      function:
+        definition: onReceive;publishInformationFromFunction
+      bindings: # 服务的整合处理
+        publishInformationFromStreamBridge:
+          destination: studyExchange
+        publishInformationFromFunction-in-0:
+          destination: studyExchange
+        publishInformationFromFunction-out-0:
+          destination: studyExchange2
+        onReceive-in-0:
+          destination: studyExchange2
+          group: consumer
+      binders: # 在此处配置要绑定的rabbitmq的服务信息；
+        default:
+          type: rabbit # 消息组件类型
+          environment: # 设置rabbitmq的相关的环境配置
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+
+eureka:
+  client: # 客户端进行Eureka注册的配置
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 2 # 设置心跳的时间间隔（默认是30秒）
+    lease-expiration-duration-in-seconds: 5 # 如果现在超过了5秒的间隔（默认是90秒）
+    instance-id: Spring-Cloud-Stream-Sender  # 在信息列表时显示主机名称
+    prefer-ip-address: true     # 访问的路径变为IP地址

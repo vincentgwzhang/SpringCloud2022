@@ -30,6 +30,8 @@
         <module>cloud-config-center-3344</module>
         <module>cloud-config-client-3355</module>
         <module>cloud-config-client-3366</module>
+        <module>cloudalibaba-config-nacos-client11001</module>
+        <module>cloud-stream-rabbitmq-provider8801</module>
     </modules>
 
     <properties>
@@ -40,6 +42,7 @@
 
         <spring.cloud.version>2021.0.1</spring.cloud.version>
         <spring.boot.version>2.6.4</spring.boot.version>
+        <spring.alibaba.version>2021.0.1.0</spring.alibaba.version>
 
         <mapstruct.version>1.5.0.RC1</mapstruct.version>
         <zookeeper.version>3.8.0</zookeeper.version>
@@ -59,6 +62,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

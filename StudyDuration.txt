@@ -117,9 +117,49 @@ curl --location --request POST 'localhost:3344/actuator/busrefresh/cloud-config-
 cloud-config-client-3366:3366 ==> application name : port, for example:
 curl --location --request POST 'localhost:3344/actuator/busrefresh/cloud-config-client-3366:3366'
 ```
+================================================================================================================
 
 
 
+
+
+
+Scenario 9:
+Spring cloud stream is a framework for event-driven, hiding with RabbitMQ, Kafka, ActiveMQ, RocketMQ etc streaming software
+And you don't know what it is behind when you develop it with
+
+Original Design:
+Message -> MessageChannel ::   SubscribableChannel :: MessageHandler
+
+Spring Cloud Stream:
+RabbitMQ :: [[[Input Binding === Spring Cloud Stream :: Output Binding]]] :: Kafka
+
+************************************
+Kafka: topic
+RabbitMQ: Exchanger
+************************************
+
+
+@Input: Input channel
+@Output: Output channel
+@StreamListener: Listener
+@EnableBiding: bind channel and exchange
+
+Spring Cloud Stream common annotation:
+
+---Scenario 9.1
+[cloud-eureka-server700*] Do the service discover
+Open RabbitMQ client
+[cloud-stream-rabbitmq-provider8801] Do the message sender
+===> Assume that we can see message sent in localhost:15672 and exchanger tab
+
+PS:
+
+Function<Object, Object> is used for received from channel and send to another channel
+Supplier<Object>         is used for send to channel by internal
+StreamBridge             is used for send to channel by manual
+
+================================================================================================================
 PS:
 1)
     <dependency>
