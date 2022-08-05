@@ -11,6 +11,11 @@ spring:
     banner-mode: off
   application:
     name: cloud-payment-service
+  zipkin:
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      probability: 1
   datasource:
     url: jdbc:mysql://localhost:3306/springcloud2022?useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
     username: vincent

@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    vault:
+      kv:
+        application-name: localmysql
+      host: 172.0.0.2
+      port: 8200
+      scheme: http
+      token: tdc-token
+      authentication: TOKEN
+      fail-fast: true
+  application:
+    name: localmysql
+
+server:
+  port: 4040

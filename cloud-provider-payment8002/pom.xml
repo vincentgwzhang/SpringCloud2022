@@ -20,6 +20,14 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+        </dependency>
         <!-- The second step, is to import eureka client, to connect eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

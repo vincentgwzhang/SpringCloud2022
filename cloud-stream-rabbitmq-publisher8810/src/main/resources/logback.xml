@@ -8,6 +8,10 @@
         </layout>
     </appender>
 
+    <logger name="org.springframework.amqp" level="error" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
     <logger name="org.springframework" level="error" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
@@ -24,7 +28,7 @@
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="com.netflix" level="error" additivity="false">
+    <logger name="com.netflix.discovery" level="error" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 

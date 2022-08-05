@@ -33,6 +33,10 @@
         <module>cloudalibaba-config-nacos-client11001</module>
         <module>cloud-stream-rabbitmq-provider8801</module>
         <module>cloud-stream-kafka-provider8802</module>
+        <module>cloud-stream-rabbitmq-receiver8811</module>
+        <module>cloud-stream-rabbitmq-receiver8812</module>
+        <module>cloud-stream-rabbitmq-publisher8810</module>
+        <module>cloud-vault-client</module>
     </modules>
 
     <properties>

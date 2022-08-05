@@ -161,7 +161,36 @@ StreamBridge             is used for send to channel by manual
 
 
 [cloud-stream-kafka-provider8802] Is for Kafka
+
+PS:
+[cloud-stream-rabbitmq-provider8801] and [cloud-stream-kafka-provider8802] is standalone, you only need to start any
+of either one, plus [cloud-eureka-server700*], there would be producer and consumer inside
+
+
+
+---Scenario 9.2
+[cloud-eureka-server700*] Do the service discover
+[cloud-stream-rabbitmq-receiver8811] and [cloud-stream-rabbitmq-receiver8812] is for consumer group
+[cloud-stream-rabbitmq-publisher8810] is for sending message
+
+假如本身 cloud-stream-rabbitmq-receiver8811 是有 group 的，但是重启前删除 group, 那么就会造成重启后由于没有定位，所以无法接受 cloud-stream-rabbitmq-receiver8811 在停止服务期 rabbitMQ 发送出来的信息
 ================================================================================================================
+
+
+
+
+
+
+
+
+Scenario 10
+docker run -d -p 9411:9411 openzipkin/zipkin
+1, [cloud-eureka-server700*] Do the service discover
+2, [cloud-provider-payment8001] and [cloud-provider-payment8002] could be triggered to be called
+3, [cloud-consumer-order9001]
+================================================================================================================
+
+
 PS:
 1)
     <dependency>
