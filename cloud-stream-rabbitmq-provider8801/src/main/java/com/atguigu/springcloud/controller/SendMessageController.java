@@ -19,4 +19,11 @@ public class SendMessageController
         return "success";
     }
 
+    @GetMapping(value = "/sendByFunction")
+    public String sendMessage2()
+    {
+        messageProvider.sendByFunction();
+        return "success";
+    }
+
 }

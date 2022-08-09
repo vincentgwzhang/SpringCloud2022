@@ -30,19 +30,14 @@ public class MessageProviderImpl implements IMessageProvider
     @Autowired
     private StreamBridge streamBridge;
 
-    @Autowired
-    private Consumer<String> onReceive;
-
     @Override
     public void send()
     {
-        for (int index = 0; index < 100; index ++) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(50);
-                streamBridge.send("publishInformationFromStreamBridge", "fucking sheet");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        streamBridge.send("publishInformationFromStreamBridge", "Message send from streamBridge");
+    }
+
+    @Override
+    public void sendByFunction() {
+        streamBridge.send("publishInformationFromStreamBridge2", "Message send from sendByFunction");
     }
 }

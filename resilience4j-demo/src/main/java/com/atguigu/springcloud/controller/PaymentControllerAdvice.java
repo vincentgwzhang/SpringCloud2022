@@ -36,9 +36,9 @@ public class PaymentControllerAdvice {
 
     @ExceptionHandler(HttpServerErrorException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public CommonResult handleHttpServerErrorException() {
+    public CommonResult handleHttpServerErrorException(HttpServerErrorException e) {
         final CommonResult result = new CommonResult();
-        result.setMessage("Invalid parameters");
+        result.setMessage(e.getMessage());
         result.setCode(HttpStatus.BAD_REQUEST.value());
         return result;
     }

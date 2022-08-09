@@ -1,5 +1,5 @@
 package com.atguigu.springcloud.service;
-
+//https://linxianqin.com/2021/08/16/resilience4j-study-notes#resilience4j-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0
 import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -24,7 +24,7 @@ public class BackendAService implements IAppService {
     @Override
     @CircuitBreaker(name = CIRCUITBREAKER_BACKENDA)
     public void testCBRecordExceptions(int id) {
-        throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "This is a remote exception");
+        throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "calling testCBRecordExceptions function, test successful");
         //throw new CircuitBreakerRuntimeException(CIRCUITBREAKER_BACKENDA);
     }
 
@@ -38,8 +38,8 @@ public class BackendAService implements IAppService {
     @Override
     @Retry(name = CIRCUITBREAKER_BACKENDA)
     public void testCBFailure() {
-        log.info("Running: testCBFailure: If this function fail, will re-run for configured times");
-        throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "This is a remote exception");
+        log.info("calling testCBFailure function, test successfully");
+        throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "calling testCBFailure function, test successfully");
     }
 
     @Override

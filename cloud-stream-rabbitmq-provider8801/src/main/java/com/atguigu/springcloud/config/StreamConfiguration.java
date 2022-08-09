@@ -18,9 +18,12 @@ public class StreamConfiguration {
 
     @Bean
     public Consumer<String> onReceive() {
-        return (message) -> {
-            System.out.println("Receive message: " + message);
-        };
+        return message -> log.info("[onReceive]Receive message: {}", message);
+    }
+
+    @Bean
+    public Consumer<String> onReceive2() {
+        return message -> log.info("[onReceive2] Receive message: {}", message);
     }
 
 }

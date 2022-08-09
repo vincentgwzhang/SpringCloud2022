@@ -30,6 +30,10 @@ and then all the other service, like [cloud-provider-payment8001], [cloud-consum
 
 Scenario 2:
 1, First need to download a zookeeper and start it.
+
+可以用 Docker 也可以下载，下载以后，记得在 /config 文件夹下把 sample_zoo.cfg 先变成 zoo.cfg
+然后运行命令: ./zkServer.sh start
+
 2, [cloud-provider-payment8004] is to connect zookeeper as service discovery
 3, [cloud-consumer-order9002]   is to connect zookeeper as consumer
 PS:
@@ -48,6 +52,10 @@ PS:
 
 Scenario 3:
 1, First need to download a consul and start it.
+
+可以用 Docker 也可以直接下载，下载以后，运行的命令是: ./consul agent -dev -node machine
+Web 界面: localhost:8500
+
 2, [cloud-providerconsul-payment8006] is to connect consul as service discovery
 3, [cloud-consumerconsul-order9003]   is to connect consul as consumer
 ================================================================================================================
@@ -112,7 +120,7 @@ Solution 3: It is also able to notify only one set of service, not all. Like:
 ```
 curl --location --request POST 'localhost:3344/actuator/busrefresh/cloud-config-client-3366'
 
-[cloud-config-client-3366] is application name, if has the same applicatio name, then format could be:
+[cloud-config-client-3366] is application name, if has the same application name, then format could be:
 
 cloud-config-client-3366:3366 ==> application name : port, for example:
 curl --location --request POST 'localhost:3344/actuator/busrefresh/cloud-config-client-3366:3366'

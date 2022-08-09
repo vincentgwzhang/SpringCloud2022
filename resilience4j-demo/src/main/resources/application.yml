@@ -18,7 +18,7 @@ management.metrics.tags.application: ${spring.application.name}
 management.metrics.distribution.percentiles-histogram.http.server.requests: true
 management.metrics.distribution.percentiles-histogram.resilience4j.circuitbreaker.calls: true
 
-
+# 断路器模式
 resilience4j.circuitbreaker:
   configs:
     default:
@@ -26,20 +26,26 @@ resilience4j.circuitbreaker:
       slidingWindowType: COUNT_BASED
       registerHealthIndicator: true
 
+
       ## 配置滑动窗口类型。当CircuitBreaker关闭时，这种类型的滑动窗口会记录调用结果。
       ## 滑动窗口要么是基于计数的，要么是基于时间的。
       ## 若滑动窗口为COUNT_BASED，则最近slidingWindowSize次的调用会被记录和统计。
       ## 若滑动窗口为TIME_BASED，则最近slidingWindowSize秒中的调用会被记录和统计。
-      slidingWindowSize: 20
+      slidingWindowSize: 100
+      ## 触发熔断的失败率阈值
+      failureRateThreshold: 50
+
+
       minimumNumberOfCalls: 5000
+
+      #半开测试次数
       permittedNumberOfCallsInHalfOpenState: 8
       automaticTransitionFromOpenToHalfOpenEnabled: false
 
-      ## 熔断器从打开状态到半开状态的等待时间
+      ## 熔断器从打开状态到半开状态的等待时间，到 5 秒后就转为半开
       waitDurationInOpenState: 5s
 
-      ## 触发熔断的失败率阈值
-      failureRateThreshold: 50
+
       eventConsumerBufferSize: 10
 
       ## 会触发失败的异常类型
@@ -65,6 +71,7 @@ resilience4j.circuitbreaker:
       ## After every exception thrown, resilience4J will auto check with this predicate
       recordFailurePredicate: com.atguigu.springcloud.exception.RecordFailurePredicate
 
+# 重试模式
 resilience4j.retry:
   configs:
     default:
@@ -82,6 +89,7 @@ resilience4j.retry:
     backendB:
       baseConfig: default
 
+#舱壁模式配置
 resilience4j.bulkhead:
   configs:
     default:
@@ -109,23 +117,31 @@ resilience4j.thread-pool-bulkhead:
       queueCapacity: 1
 
 
-
+#限流模式
 resilience4j.ratelimiter:
   configs:
     default:
       registerHealthIndicator: false
-      limitForPeriod: 3
+
+      # 限制刷新的时间段。在每个时间段之后，速率限制器将其权限计数重新设置为limitForPeriod值
       limitRefreshPeriod: 1s
+      # 限制刷新期间段可用的权限数
+      limitForPeriod: 3
+
+      # 默认等待权限持续时间
       timeoutDuration: 0
       eventConsumerBufferSize: 100
   instances:
     backendA:
       baseConfig: default
+    # 60 秒 支持 5 个请求
     backendB:
-      limitForPeriod: 6
-      limitRefreshPeriod: 500ms
+      limitForPeriod: 5
+      limitRefreshPeriod: 60s
       timeoutDuration: 3s
 
+
+# 超时模式
 resilience4j.timelimiter:
   configs:
     default:

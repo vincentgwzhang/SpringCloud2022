@@ -5,7 +5,7 @@ spring:
   main:
     banner-mode: off
   application:
-    name: cloud-stream-cluster-rabbitMQ-consumer
+    name: cloud-stream-cluster-rabbitMQ-consumer8811
   cloud:
     stream:
       function:

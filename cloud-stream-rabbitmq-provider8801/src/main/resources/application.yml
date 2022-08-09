@@ -11,14 +11,43 @@ spring:
       function:
         definition: onReceive;publishInformationFromFunction
       bindings: # 服务的整合处理
+        # 这里是有三组规则在里面的，
+        #     第一个，是 onReceive，这个简单，就是直接一个 onReceive config, 然后在后台有个叫 onReceive 的 consumer
+        #     一旦收到消息，个 consumer 就直接收取
+        #     使用方法：定义一个同名的 consumer 就行
+        #
+        #     第二个，是 publishInformationFromStreamBridge, publishInformationFromStreamBridge2
+        #     这个可以是 streamBridge 解决，
+        #     一旦 streamBridge.send("publishInformationFromStreamBridge2", "Message send from sendByFunction");
+        #     立即就会有信息发信到所在的 Queue (注意这里和 onReceive-in-0 是有区别的，onReceive-in-0有个 -in- 做格式)
+        #     使用方法：定一个 Function
+        #          @Bean
+        #          public Function<String, String> publishInformationFromFunction() {
+        #                 return String::toUpperCase;
+        #          }
+        #
+        #     第三个，是 publishInformationFromFunction-in-0 / publishInformationFromFunction-out-0
+        #     这个是一堆的，意思是说，我会自动从 publishInformationFromFunction-in-0 对应的 Queue 获取信息，并且自动发送到
+        #     publishInformationFromFunction-out-0 所在的 Queue
+        #     使用方法：定一个 Function
+        #          @Autowired
+        #          private StreamBridge streamBridge;
+        #             然后在使用的时候指定目标：
+        #          streamBridge.send("publishInformationFromStreamBridge2", "Message send from sendByFunction");
+        #
+        #
+        #
+        #
         publishInformationFromStreamBridge:
+          destination: studyExchangeFromStreamBridge
+        publishInformationFromStreamBridge2:
           destination: studyExchange
         publishInformationFromFunction-in-0:
           destination: studyExchange
         publishInformationFromFunction-out-0:
-          destination: studyExchange2
+          destination: studyExchangeFromStreamBridge
         onReceive-in-0:
-          destination: studyExchange2
+          destination: studyExchangeFromStreamBridge
           group: consumer
       binders: # 在此处配置要绑定的rabbitmq的服务信息；
         default:

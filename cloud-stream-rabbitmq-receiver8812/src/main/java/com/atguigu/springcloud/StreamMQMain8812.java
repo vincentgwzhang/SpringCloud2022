@@ -15,11 +15,12 @@ public class StreamMQMain8812
     @Value("${server.port}")
     private int port;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     @Bean
     public Consumer<String> onReceive() {
-        return (message) -> {
-            log.info("From {}, Receive message: {}", port, message);
-        };
+        return message -> log.info("From {}:{}, Receive message: {}", applicationName, port, message);
     }
 
     public static void main(String[] args)

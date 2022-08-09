@@ -1,23 +1,14 @@
 package com.atguigu.springcloud.service.impl;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.context.annotation.Bean;
-import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.MessageChannel;
-
 import com.atguigu.springcloud.service.IMessageProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -30,9 +21,13 @@ public class MessageProviderImpl implements IMessageProvider
     @Autowired
     private StreamBridge streamBridge;
 
+    private AtomicInteger id = new AtomicInteger();
+
     @Override
     public void send()
     {
-        streamBridge.send("senderBindingName", "fucking sheet");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String content = String.format("[app-publisher], time: %s, message id = %d", dateFormat.format(new Date()), id.incrementAndGet());
+        streamBridge.send("senderBindingName", content);
     }
 }
